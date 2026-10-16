@@ -5,6 +5,11 @@ Kit de patch que pega o APK original do AetherSX2 v1.5-4248, aplica ajustes para
 HyperOS) e gera um APK novo e assinado. O APK em si não fica no repositório; só o
 patch e os scripts de build.
 
+> **Aviso: o APK gerado por este kit não abre.** A `libemucore.so` compara o hash do
+> certificado do APK com o da Play Store, inclusive dentro de `NativeLibrary.initialize`.
+> Como o APK recompilado é assinado com outra chave, essa comparação falha e o app fecha
+> na abertura. Use o APK original e aplique os ajustes manualmente (veja a seção 4).
+
 ## 1. Análise do APK recebido
 
 | Item | Resultado |
