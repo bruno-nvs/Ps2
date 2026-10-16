@@ -90,7 +90,31 @@ Os jogos mais pesados (ex.: *God of War II*, *Shadow of the Colossus*,
 *Gran Turismo 4* em 2x) podem continuar abaixo de 100% de velocidade. É limite de
 hardware, não bug do app.
 
-## 5. Como recompilar
+## 5. BIOS
+
+Para conferir uma BIOS antes de usar: `python3 scripts/check_bios.py bios.bin`.
+O script só lê o arquivo e confere o tamanho, a tabela ROMDIR, a versão e a região.
+
+BIOS analisada (a que veio junto com o APK):
+
+| Item | Resultado |
+|---|---|
+| Tamanho | 4 194 304 bytes (4 MiB, tamanho correto) |
+| MD5 / SHA-1 | `cb801b7920a7d536ba07b6534d2433ca` / `92e488d5b2705e4cca83d4d1efbc421012faf83e` |
+| ROMVER | `0220AC20060210`: v2.20, EUA (NTSC-U), console de varejo, 10/02/2006 |
+| Modelo | PS2 Slim com IOP "Deckard" (série SCPH-7xxxx, provavelmente SCPH-77001) |
+| Estrutura | ROMDIR completo, 105 entradas, todos os módulos essenciais presentes e o último terminando exatamente no fim do arquivo (0x400000) |
+| Conteúdo estranho | nenhum: sem marca d'água, URL ou dado fora dos módulos |
+
+Conclusão: a BIOS está íntegra e serve para o AetherSX2. **Ela não precisa e não deve
+ser modificada**, porque qualquer byte alterado pode impedir o boot ou causar erros
+nos jogos. No emulador, a região da BIOS não bloqueia jogos: com esta BIOS dos EUA
+rodam jogos NTSC-U, PAL e NTSC-J.
+
+Para usar: *Configurações → BIOS* (ou o assistente inicial) → importe o `.bin`.
+Deixe o **Fast Boot** ligado para ir direto ao jogo.
+
+## 6. Como recompilar
 
 ```bash
 scripts/build.sh /caminho/AetherSX2-v1.5-4248.apk ./work
@@ -102,7 +126,7 @@ O script baixa o apktool 2.10.0 e o uber-apk-signer 1.3.0, decompila o APK, apli
 `scripts/apply_patches.py`, recompila, faz zipalign com alinhamento de página para a
 `.so`, assina e confere o alinhamento com `scripts/check_alignment.py`.
 
-## 6. Limitações
+## 7. Limitações
 
 - O patch foi validado estaticamente: o APK recompila, o dex descompila
   corretamente, as assinaturas v2/v3 são válidas e a `.so` está alinhada em 4 KiB.

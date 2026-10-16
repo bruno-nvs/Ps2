@@ -4,3 +4,4 @@
 *.keystore
 build/
 work/
+*.bin
